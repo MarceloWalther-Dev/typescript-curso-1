@@ -6,6 +6,6 @@ export class Negociacoes {
         this.negociacoes.push(negociacao);
     }
     lista() {
-        return this.negociacoes;
+        return [...this.negociacoes]; //com o spred retornamos uma copia da lista
     }
 }
