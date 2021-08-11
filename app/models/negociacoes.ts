@@ -7,7 +7,7 @@ export class Negociacoes {
         this.negociacoes.push(negociacao);
     }
 
-    lista(): Array<Negociacao>{
-        return [...this.negociacoes]; //com o spred retornamos uma copia da lista
+    lista(): ReadonlyArray<Negociacao>{ // ReadonlyArray<Negociacao> é uma lista de leitura de renegociacao
+        return this.negociacoes;
     }
 }
