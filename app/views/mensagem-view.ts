@@ -8,7 +8,7 @@ export class MensagemView extends View<string> {
         `;
     }
 
-    update(model : string) : void{
+    public update(model : string) : void{
         const template = this.template(model);
         this.elemento.innerHTML = template;
     }

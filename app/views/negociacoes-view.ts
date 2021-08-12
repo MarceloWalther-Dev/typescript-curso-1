@@ -15,22 +15,14 @@ export class NegociacoesView extends View<Negociacoes> {
                     </tr>
                 </thead>
                 <tbody>
-                    ${model.lista().map(negociacao=>{
-                        return `
-                            <tr>
-                                <td>${this.formatarData(negociacao.data)}</td>
-                                <td>${negociacao.quantidade}</td>
-                                <td>${negociacao.valor}</td>
-                            </tr>
-                        `;
-                    }).join('')}
+                    ${this.createCorpoTabela(model)}
                 </tbody>
             </table>
         `;
     }
      
     
-    update(model: Negociacoes): void {
+    public update(model: Negociacoes): void {
 
         const template = this.template(model);
         console.log(template);
@@ -40,6 +32,19 @@ export class NegociacoesView extends View<Negociacoes> {
 
     private formatarData(data: Date): string{
         return new Intl.DateTimeFormat().format(data);
+    }
+    
+
+    private createCorpoTabela(model: Negociacoes): void {
+        model.lista().map(negociacao=>{
+            return `
+                <tr>
+                    <td>${this.formatarData(negociacao.data)}</td>
+                    <td>${negociacao.quantidade}</td>
+                    <td>${negociacao.valor}</td>
+                </tr>
+            `;
+        }).join('')
     }
 
 }
