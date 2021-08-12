@@ -15,7 +15,15 @@ export class NegociacoesView extends View<Negociacoes> {
                     </tr>
                 </thead>
                 <tbody>
-                    ${this.createCorpoTabela(model)}
+                    ${model.lista().map(negociacao=>{
+                        return `
+                            <tr>
+                                <td>${this.formatarData(negociacao.data)}</td>
+                                <td>${negociacao.quantidade}</td>
+                                <td>${negociacao.valor}</td>
+                            </tr>
+                        `;
+                    }).join('')}
                 </tbody>
             </table>
         `;
@@ -34,17 +42,5 @@ export class NegociacoesView extends View<Negociacoes> {
         return new Intl.DateTimeFormat().format(data);
     }
     
-
-    private createCorpoTabela(model: Negociacoes): void {
-        model.lista().map(negociacao=>{
-            return `
-                <tr>
-                    <td>${this.formatarData(negociacao.data)}</td>
-                    <td>${negociacao.quantidade}</td>
-                    <td>${negociacao.valor}</td>
-                </tr>
-            `;
-        }).join('')
-    }
 
 }

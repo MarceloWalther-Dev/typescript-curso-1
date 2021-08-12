@@ -16,14 +16,16 @@ export class NegociacaoController {
     }
     adiciona() {
         const negociacao = this.criarNegociacao();
-        if (this.validaData(negociacao)) {
-            this.negociacoes.adiciona(negociacao);
-            this.limparFormulario();
-            this.atualizarView();
+        if (!this.validaData(negociacao.data)) {
+            this.mensagemView.update('Apenas negociações em dias úteis são aceitas');
+            return;
         }
+        this.negociacoes.adiciona(negociacao);
+        this.limparFormulario();
+        this.atualizarView();
     }
-    validaData(negociacao) {
-        if (negociacao.data.getDay() > this.SABADO && negociacao.data.getDay() < this.DOMINGO) {
+    validaData(data) {
+        if (data.getDay() > this.SABADO && data.getDay() < this.DOMINGO) {
             return true;
         }
         return false;
