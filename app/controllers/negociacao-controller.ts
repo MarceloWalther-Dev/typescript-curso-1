@@ -9,7 +9,7 @@ export class NegociacaoController {
   private inputQuantidade: HTMLInputElement;
   private inputValor: HTMLInputElement;
   private negociacoes: Negociacoes = new Negociacoes();
-  private negociacoesView: NegociacoesView = new NegociacoesView("#negociacoesView");
+  private negociacoesView: NegociacoesView = new NegociacoesView("#negociacoesView", true);
   private mensagemView: MensagemView = new MensagemView("#mensagemView");
 
   constructor() {
@@ -20,7 +20,12 @@ export class NegociacaoController {
   }
 
   public adiciona(): void {
-    const negociacao = this.criarNegociacao();
+    const negociacao = Negociacao.criarNegociacao(
+
+        this.inputData.value,
+        this.inputQuantidade.value,
+        this.inputValor.value
+    );
 
     if (!this.validaData(negociacao.data)) {
         this.mensagemView.update('Apenas negociações em dias úteis são aceitas');
@@ -36,15 +41,6 @@ export class NegociacaoController {
       return true;
     }
     return false;
-  }
-
-  private criarNegociacao(): Negociacao {
-    const regexDate = /-/g;
-    const date = new Date(this.inputData.value.replace(regexDate, ","));
-    const quantidade = parseInt(this.inputQuantidade.value);
-    const valor = parseFloat(this.inputValor.value);
-
-    return new Negociacao(date, quantidade, valor);
   }
 
   private limparFormulario(): void {
