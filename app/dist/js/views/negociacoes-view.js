@@ -1,11 +1,13 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 import { logarTempodeExecucao } from "../decorators/logar-tempo-de-execucao.js";
-import { Negociacoes } from "../models/negociacoes.js";
 import { View } from "./view.js";
-
-export class NegociacoesView extends View<Negociacoes> {    
-
-    protected template(model: Negociacoes) : string{
-
+export class NegociacoesView extends View {
+    template(model) {
         return `
             <table class="table table-hover table-bordered">
                 <thead>
@@ -16,31 +18,27 @@ export class NegociacoesView extends View<Negociacoes> {
                     </tr>
                 </thead>
                 <tbody>
-                    ${model.lista().map(negociacao=>{
-                        return `
+                    ${model.lista().map(negociacao => {
+            return `
                             <tr>
                                 <td>${this.formatarData(negociacao.data)}</td>
                                 <td>${negociacao.quantidade}</td>
                                 <td>${negociacao.valor}</td>
                             </tr>
                         `;
-                    }).join('')}
+        }).join('')}
                 </tbody>
             </table>
         `;
     }
-     
-    @logarTempodeExecucao()
-    public update(model: Negociacoes): void {
-
+    update(model) {
         const template = this.template(model);
         this.elemento.innerHTML = template;
     }
-
-
-    private formatarData(data: Date): string{
+    formatarData(data) {
         return new Intl.DateTimeFormat().format(data);
     }
-    
-
 }
+__decorate([
+    logarTempodeExecucao()
+], NegociacoesView.prototype, "update", null);

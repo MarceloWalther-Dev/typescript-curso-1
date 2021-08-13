@@ -1,3 +1,4 @@
+import { logarTempodeExecucao } from "../decorators/logar-tempo-de-execucao.js";
 import { View } from "./view.js";
 
 export class MensagemView extends View<string> {
@@ -8,6 +9,7 @@ export class MensagemView extends View<string> {
         `;
     }
 
+    @logarTempodeExecucao()
     public update(model : string) : void{
         const template = this.template(model);
         this.elemento.innerHTML = template;

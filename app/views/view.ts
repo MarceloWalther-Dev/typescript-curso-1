@@ -1,3 +1,4 @@
+import { logarTempodeExecucao } from "../decorators/logar-tempo-de-execucao.js";
 import { Negociacoes } from "../models/negociacoes.js";
 
 export abstract class View<T> {
@@ -6,12 +7,20 @@ export abstract class View<T> {
     private escapar : boolean = false;
 
     constructor(selector:string, escapar?: boolean) {
-        this.elemento = document.querySelector(selector) as HTMLElement;
+        const elemento = document.querySelector(selector);
+
+        if(elemento) {
+            this.elemento = elemento as HTMLElement;
+        }else{
+            throw new Error(`Seletor ${selector} não existe no DOM, por favor verificar`);
+        }
+
         if(escapar){
             this.escapar = escapar;
         }
     }
     
+    @logarTempodeExecucao()
     public update(model : T) : void{
         let template = this.template(model);
 

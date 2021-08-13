@@ -3,6 +3,7 @@ import { Negociacoes } from "../models/negociacoes.js";
 import { NegociacoesView } from "../views/negociacoes-view.js";
 import { MensagemView } from "../views/mensagem-view.js";
 import {DiasDaSemana} from "../enums/dias-da-semana.js";
+import { logarTempodeExecucao } from '../decorators/logar-tempo-de-execucao.js'
 
 export class NegociacaoController {
   private inputData: HTMLInputElement;
@@ -14,11 +15,12 @@ export class NegociacaoController {
 
   constructor() {
     this.inputData = document.querySelector("#data") as HTMLInputElement;  // microsoft informa que essa é a forma ideal para fazer cast
-    this.inputQuantidade =<HTMLInputElement> document.querySelector("#quantidade"); // outra forma de fazer cast de forma explicita 
+    this.inputQuantidade = <HTMLInputElement> document.querySelector("#quantidade"); // outra forma de fazer cast de forma explicita 
     this.inputValor = document.querySelector("#valor") as HTMLInputElement;
     this.negociacoesView.update(this.negociacoes);
   }
 
+  @logarTempodeExecucao()
   public adiciona(): void {
     const negociacao = Negociacao.criarNegociacao(
 
