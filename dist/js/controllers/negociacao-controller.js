@@ -8,8 +8,8 @@ export class NegociacaoController {
         this.negociacoes = new Negociacoes();
         this.negociacoesView = new NegociacoesView("#negociacoesView", true);
         this.mensagemView = new MensagemView("#mensagemView");
-        this.inputData = document.querySelector("#data");
-        this.inputQuantidade = document.querySelector("#quantidade");
+        this.inputData = document.querySelector("#data"); // microsoft informa que essa é a forma ideal para fazer cast
+        this.inputQuantidade = document.querySelector("#quantidade"); // outra forma de fazer cast de forma explicita 
         this.inputValor = document.querySelector("#valor");
         this.negociacoesView.update(this.negociacoes);
     }

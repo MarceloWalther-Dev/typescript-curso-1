@@ -13,9 +13,9 @@ export class NegociacaoController {
   private mensagemView: MensagemView = new MensagemView("#mensagemView");
 
   constructor() {
-    this.inputData = document.querySelector("#data");
-    this.inputQuantidade = document.querySelector("#quantidade");
-    this.inputValor = document.querySelector("#valor");
+    this.inputData = document.querySelector("#data") as HTMLInputElement;  // microsoft informa que essa é a forma ideal para fazer cast
+    this.inputQuantidade =<HTMLInputElement> document.querySelector("#quantidade"); // outra forma de fazer cast de forma explicita 
+    this.inputValor = document.querySelector("#valor") as HTMLInputElement;
     this.negociacoesView.update(this.negociacoes);
   }
 
