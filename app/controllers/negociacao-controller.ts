@@ -1,48 +1,57 @@
 import { Negociacao } from "../models/negociacao.js";
 import { Negociacoes } from "../models/negociacoes.js";
 import { NegociacoesView } from "../views/negociacoes-view.js";
+import { MensagemView } from "../views/mensagem-view.js";
+import {DiasDaSemana} from "../enums/dias-da-semana.js";
 
-export class NegociacaoController{
+export class NegociacaoController {
+  private inputData: HTMLInputElement;
+  private inputQuantidade: HTMLInputElement;
+  private inputValor: HTMLInputElement;
+  private negociacoes: Negociacoes = new Negociacoes();
+  private negociacoesView: NegociacoesView = new NegociacoesView("#negociacoesView", true);
+  private mensagemView: MensagemView = new MensagemView("#mensagemView");
 
-    private _inputData: HTMLInputElement;
-    private _inputQuantidade:HTMLInputElement;
-    private _inputValor:HTMLInputElement;
-    private negociacoes: Negociacoes = new Negociacoes();
-    private negociacoesView: NegociacoesView = new NegociacoesView('#negociacoesView');
+  constructor() {
+    this.inputData = document.querySelector("#data") as HTMLInputElement;  // microsoft informa que essa é a forma ideal para fazer cast
+    this.inputQuantidade =<HTMLInputElement> document.querySelector("#quantidade"); // outra forma de fazer cast de forma explicita 
+    this.inputValor = document.querySelector("#valor") as HTMLInputElement;
+    this.negociacoesView.update(this.negociacoes);
+  }
 
-    constructor(){
+  public adiciona(): void {
+    const negociacao = Negociacao.criarNegociacao(
 
-        this._inputData = document.querySelector('#data');
-        this._inputQuantidade = document.querySelector('#quantidade');
-        this._inputValor = document.querySelector('#valor');
-        this.negociacoesView.update();
-        
+        this.inputData.value,
+        this.inputQuantidade.value,
+        this.inputValor.value
+    );
+
+    if (!this.validaData(negociacao.data)) {
+        this.mensagemView.update('Apenas negociações em dias úteis são aceitas');
+        return ;
     }
+        this.negociacoes.adiciona(negociacao);
+        this.limparFormulario();
+        this.atualizarView();
+  }
 
-    adiciona(): void{
-
-       const negociacao = this.criarNegociacao();
-       this.negociacoes.adiciona(negociacao);
-       console.log(this.negociacoes);
-       this.limparFormulario();
+  private validaData(data: Date): boolean {
+    if (data.getDay() > DiasDaSemana.SABADO &&  data.getDay() < DiasDaSemana.DOMINGO) {
+      return true;
     }
+    return false;
+  }
 
-    criarNegociacao(): Negociacao{
+  private limparFormulario(): void {
+    this.inputData.value = "";
+    this.inputQuantidade.value = "";
+    this.inputValor.value = "";
+    this.inputData.focus();
+  }
 
-        const regexDate = /-/g;
-        const date = new Date(this._inputData.value.replace(regexDate, ','));
-        const quantidade = parseInt(this._inputQuantidade.value);
-        const valor = parseFloat(this._inputValor.value);
-
-        return  new Negociacao(date,quantidade,valor);
-    }
-
-    limparFormulario(): void{
-
-        this._inputData.value = "";
-        this._inputQuantidade.value = "";
-        this._inputValor.value = "";
-        this._inputData.focus();
-    }
-
+  private atualizarView(): void {
+    this.negociacoesView.update(this.negociacoes);
+    this.mensagemView.update("!! Negociação adicionada com sucesso !!");
+  }
 }
