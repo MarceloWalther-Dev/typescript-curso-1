@@ -4,13 +4,14 @@ import { NegociacoesView } from "../views/negociacoes-view.js";
 import { MensagemView } from "../views/mensagem-view.js";
 import {DiasDaSemana} from "../enums/dias-da-semana.js";
 import { logarTempodeExecucao } from '../decorators/logar-tempo-de-execucao.js'
+import { inspect } from "../decorators/inspect.js";
 
 export class NegociacaoController {
   private inputData: HTMLInputElement;
   private inputQuantidade: HTMLInputElement;
   private inputValor: HTMLInputElement;
   private negociacoes: Negociacoes = new Negociacoes();
-  private negociacoesView: NegociacoesView = new NegociacoesView("#negociacoesView", true);
+  private negociacoesView: NegociacoesView = new NegociacoesView("#negociacoesView");
   private mensagemView: MensagemView = new MensagemView("#mensagemView");
 
   constructor() {
@@ -20,6 +21,7 @@ export class NegociacaoController {
     this.negociacoesView.update(this.negociacoes);
   }
 
+  @inspect
   @logarTempodeExecucao()
   public adiciona(): void {
     const negociacao = Negociacao.criarNegociacao(
